@@ -23,7 +23,9 @@
                     // 是否为iPhone或者QQHD浏览器
                     iPhone: u.indexOf('iPhone') > -1,
                     // 是否iPad
-                    iPad: u.indexOf('iPad') > -1
+                    iPad: u.indexOf('iPad') > -1,
+                    // 是否华为
+                    huiwei: u.indexOf('huawei') > -1
                 };
             }(),
             // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
@@ -36,6 +38,11 @@
             _czc.push(['_trackEvent', '未你', '下载', 'Android']);
             theUrl = 'https://play.google.com/store/apps/details?id=com.tencent.mm';
             location.href = theUrl;
+        } else if (Terminal.platform.huiwei) {
+            _czc.push(['_trackEvent', '未你', '下载', 'huawei']);
+            window.alert('华为手机');
+            // theUrl = '';
+            // location.href = theUrl;
         } else {
             if (Terminal.platform.iPhone) {//iPhone端
                 _czc.push(['_trackEvent', '未你', '下载', 'iPhone']);
