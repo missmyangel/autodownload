@@ -27,10 +27,10 @@
                 console.log('设备APP');
                 console.log(app);
                 return {
-                    // 是否华为
-                    huiwei: u.indexOf('huawei') > -1,
-                    // android终端或者uc浏览器
-                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+                    // android终端
+                    android: (u.indexOf('android') > -1 || u.indexOf('linux') > -1)  && (u.indexOf('huawei') == -1 || u.indexOf('harmonyos') == -1),
+                    // 华为
+                    huiwei: (u.indexOf('android') > -1 || u.indexOf('linux') > -1)  && (u.indexOf('huawei') > -1 || u.indexOf('harmonyos') > -1),
                     // 是否为iPhone或者QQHD浏览器
                     iPhone: u.indexOf('iPhone') > -1,
                     // 是否iPad
