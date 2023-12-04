@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>便捷下载 - 方便快捷的跳转至应用下载</title>
     <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
 </head>
@@ -11,8 +11,8 @@
     <script type="text/javascript">
         // init vConsole
         var vConsole = new VConsole();
-        console.log('Hello world');
-        
+        console.log('vConsole init');
+
         //声明_czc对象:
         var _czc = _czc || [];
         //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
@@ -21,61 +21,78 @@
         var Terminal = {
             // 辨别移动终端类型
             platform: function () {
-                var u = navigator.userAgent, app = navigator.appVersion;
-                console.log('设备userAgent');
-                console.log(u);
-                console.log('设备APP');
-                console.log(app);
+                var u = navigator.userAgent.toLowerCase(), app = navigator.appVersion;
                 return {
                     // android终端
-                    android: (u.indexOf('android') > -1 || u.indexOf('linux') > -1)  && (u.indexOf('huawei') == -1 || u.indexOf('harmonyos') == -1),
+                    android: (u.indexOf('android') > -1 || u.indexOf('linux') > -1) && (u.indexOf('huawei') == -1 || u.indexOf('harmonyos') == -1),
                     // 华为
-                    huiwei: (u.indexOf('android') > -1 || u.indexOf('linux') > -1)  && (u.indexOf('huawei') > -1 || u.indexOf('harmonyos') > -1),
+                    huiwei: (u.indexOf('android') > -1 || u.indexOf('linux') > -1) && (u.indexOf('huawei') > -1 || u.indexOf('harmonyos') > -1),
                     // 是否为iPhone或者QQHD浏览器
-                    iPhone: u.indexOf('iPhone') > -1,
+                    iPhone: u.indexOf('iphone') > -1,
                     // 是否iPad
-                    iPad: u.indexOf('iPad') > -1
+                    iPad: u.indexOf('ipad') > -1,
+
                 };
             }(),
             // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
             language: (navigator.browserLanguage || navigator.language).toLowerCase()
         }
 
+
+        function verifyBrand() {
+            const userAgent = navigator.userAgent.toLowerCase()
+            console.log(userAgent);
+            const isIphone = userAgent.match(/(iphone|ipad|ipod)/i);
+            const isAndroid = userAgent.match(/(android|linux)/i)
+            const isHuawei = userAgent.match(/huawei/i);
+            const isHonor = userAgent.match(/honor/i);
+            const isHarmonOS = userAgent.match(/harmonyos/i);
+            const isOppo = userAgent.match(/oppo/i);
+            const isOppoR15 = userAgent.match(/PACM00/i);
+            const isVivo = userAgent.match(/vivo/i);
+            const isXiaomi = userAgent.match(/mi\s/i);
+            const isXIAOMI = userAgent.match(/xiaomi/i);
+            const isXiaomi2s = userAgent.match(/mix\s/i);
+            const isRedmi = userAgent.match(/redmi/i);
+
+            if (isIphone) {
+                return 'iphone'
+            } else if (isAndroid) {
+                if (isHuawei || isHonor || isHarmonOS) {
+                    return 'huawei'
+                }
+                return 'android'
+            } else {
+                return 'other'
+            }
+        }
+
+
         // 根据不同的终端，跳转到不同的地址
         var theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
-        if (Terminal.platform.android) {//安卓端
-            _czc.push(['_trackEvent', '未你', '下载', 'Android']);
-            // theUrl = 'https://play.google.com/store/apps/details?id=com.tencent.mm';
-            // location.href = theUrl;
-        } else if (Terminal.platform.huiwei) {
-            _czc.push(['_trackEvent', '未你', '下载', 'huawei']);
-            window.alert('华为手机');
-            // theUrl = '';
-            // location.href = theUrl;
-        } else {
-            // if (Terminal.platform.iPhone) {//iPhone端
-            //     _czc.push(['_trackEvent', '未你', '下载', 'iPhone']);
-            //     theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
-            // } else if (Terminal.platform.iPad) {//iPad端
-            //     _czc.push(['_trackEvent', '未你', '下载', 'iPad']);
-            //     // 还可以通过language，区分开多国语言版
-            //     switch (Terminal.language) {
-            //         case 'en-us'://iPad英文版APP Store地址
-            //             theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
-            //             break;
-            //         case 'ko-kr'://iPad韩语版APP Store地址
-            //             theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
-            //             break;
-            //         case 'ja-jp'://iPad日文版APP Store地址
-            //             theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
-            //             break;
-            //         default://iPad默认APP Store地址
-            //             theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
-            //     }
-            // } else {
-            //     _czc.push(['_trackEvent', '未你', '下载', 'Other']);
-            // }
-            // location.href = theUrl;
+        // iOS url
+        const iOSUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
+        // android url
+        const androidUrl = 'https://play.google.com/store/apps/details?id=com.tencent.mm';
+        // huawei url
+        const huaweiUrl = '';
+        switch (this.verifyBrand()) {
+            case 'iphone':
+                // window.location.href = iosLinkUrl;
+                console.log('iphone')
+                break;
+            case 'android':
+                // window.location.href = androidUrl;
+                console.log('android')
+                break;
+            case 'huawei':
+                // window.location.href = huaweiUrl;
+                console.log('huawei')
+                break;
+            default:
+                // window.location.href = androidUrl;
+                console.log('other')
+                break;
         }
     </script>
 </body>
