@@ -12,33 +12,7 @@
         // init vConsole
         var vConsole = new VConsole();
         console.log('vConsole init');
-
-        //声明_czc对象:
-        var _czc = _czc || [];
-        //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
-        _czc.push(["_setAccount", "1275487845"]);
-        // 获取终端的相关信息
-        var Terminal = {
-            // 辨别移动终端类型
-            platform: function () {
-                var u = navigator.userAgent.toLowerCase(), app = navigator.appVersion;
-                return {
-                    // android终端
-                    android: (u.indexOf('android') > -1 || u.indexOf('linux') > -1) && (u.indexOf('huawei') == -1 || u.indexOf('harmonyos') == -1),
-                    // 华为
-                    huiwei: (u.indexOf('android') > -1 || u.indexOf('linux') > -1) && (u.indexOf('huawei') > -1 || u.indexOf('harmonyos') > -1),
-                    // 是否为iPhone或者QQHD浏览器
-                    iPhone: u.indexOf('iphone') > -1,
-                    // 是否iPad
-                    iPad: u.indexOf('ipad') > -1,
-
-                };
-            }(),
-            // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
-            language: (navigator.browserLanguage || navigator.language).toLowerCase()
-        }
-
-
+        
         function verifyBrand() {
             const userAgent = navigator.userAgent.toLowerCase()
             console.log(userAgent);
@@ -67,30 +41,28 @@
             }
         }
 
-
         // 根据不同的终端，跳转到不同的地址
-        var theUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
         // iOS url
         const iOSUrl = 'https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124';
         // android url
         const androidUrl = 'https://play.google.com/store/apps/details?id=com.tencent.mm';
         // huawei url
-        const huaweiUrl = '';
+        const huaweiUrl = 'https://url.cloud.huawei.com/ouXBichoRi';
         switch (this.verifyBrand()) {
             case 'iphone':
-                // window.location.href = iosLinkUrl;
+                location.href = iOSUrl;
                 console.log('iphone')
                 break;
             case 'android':
-                // window.location.href = androidUrl;
+                location.href = androidUrl;
                 console.log('android')
                 break;
             case 'huawei':
-                // window.location.href = huaweiUrl;
+                location.href = huaweiUrl;
                 console.log('huawei')
                 break;
             default:
-                // window.location.href = androidUrl;
+                location.href = androidUrl;
                 console.log('other')
                 break;
         }
